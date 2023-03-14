@@ -3,13 +3,16 @@ import mvc.entity.Category;
 import mvc.entity.Product;
 import mvc.service.CategoryService;
 import mvc.service.ProductService;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.validation.Valid;
@@ -31,15 +34,36 @@ public class ProductController {
 
     @RequestMapping(method = GET)
     public String showProduct(Model model) {
-        List<Product> productList = (List<Product>) productService.findAll();
-        model.addAttribute("productList", productList);
+        List<Product> productListTopPhone = (List<Product>) productService.showTopPhone();
+        model.addAttribute("productListTopPhone", productListTopPhone);
+        List<Product> productListTopLaptop = (List<Product>) productService.showTopLaptop();
+        model.addAttribute("productListTopLaptop", productListTopLaptop);
+        List<Product> productListDH = (List<Product>) productService.showTopDH();
+        model.addAttribute("productListDH", productListDH);
+        List<Product> showTopTapLet = (List<Product>) productService.showTopTapLet();
+        model.addAttribute("showTopTapLet", showTopTapLet);
+        List<Category> categoryList = (List<Category>) categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
         return "product";
     }
-
     @RequestMapping(value = "/index")
     public String index(){
         return "product";
     }
+
+        @RequestMapping(value = "/search", method = GET)
+    public String search(@RequestParam("searchInput") String searchInput, Model model) {
+        List<Product> searchList;
+        if (searchInput.isEmpty()) {
+            searchList = (List<Product>) productService.findAll();
+        } else {
+            searchList = productService.findByNameContaining(searchInput);
+        }
+        model.addAttribute("productList",searchList);
+        return "product";
+    }
+
+
 
     @RequestMapping(value = "/newProduct", method = GET)
     public String showNewProduct(Model model) {

@@ -25,5 +25,5 @@
 	</bean>
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
-	<mvc:resources mapping="/webapp/resources/**" location="/webapp/resources/" />
+	<mvc:resources mapping="/webapp/resources/**" location="/webapp/resources/css/" />
 </beans>

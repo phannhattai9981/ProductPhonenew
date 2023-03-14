@@ -1,9 +1,12 @@
 package mvc.service;
 
 import mvc.entity.Category;
+import mvc.entity.Product;
 import mvc.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -26,4 +29,5 @@ public class CategoryService {
     public Object deleteById(int id) {
         return categoryRepository.findById(id);
     }
+
 }
